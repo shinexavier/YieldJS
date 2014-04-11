@@ -3,9 +3,7 @@ YieldJS
 
 A JavaScript library for creating Iterators and Continuation methods for Arrays.
 
-The Iterator would be a method (<b>getIterator()</b>) that augments the Array data type:
-
-and would have the following interfaces:
+The Iterator would be a method (<b>getIterator()</b>) that augments the Array data type and would have the following interfaces:
 
 Properties:
 
@@ -41,7 +39,7 @@ The context object provides the following attributes for creating various useful
 Usage:
 
 ```javascript
-//Iteration Methods
+//Continuation Methods
 function unique(context) {
     "use strict";
     return (context.outList.indexOf(context.current) < 0) ? context.current : null;
