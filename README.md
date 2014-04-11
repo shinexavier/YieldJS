@@ -19,12 +19,14 @@ Methods:
 
 Usage:
 
+```javascript
 var x = [1, 2, 3, 4, 5, 6, 7],
-list = x.getIterator();
+    list = x.getIterator();
 while (list.moveNext() {
     console.log(list.current);
 }
 console.log(continuation.outList);
+```
 
 Continuation Methods:
 =====================
@@ -38,6 +40,7 @@ The context object provides the following attributes for creating various useful
 
 Usage:
 
+```javascript
 //Iteration Methods
 function unique(context) {
     "use strict";
@@ -71,11 +74,9 @@ function skip(count) {
 
 //Test Harness
 var x = [1, 2, 3, 200, 1, 2, 3, 200],
-continuation = x.getIterator();
+    continuation = x.getIterator();
 while (continuation.moveNext(unique, skip(2))) {
     console.log(continuation.current);
 }
 console.log(continuation.outList);
-
-
-
+```
