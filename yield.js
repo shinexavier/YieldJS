@@ -1,21 +1,45 @@
+/*The MIT License (MIT)
+
+Copyright (c) 2014 Shine Xavier
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.*/
+
 Array.prototype.getIterator = function () {
     "use strict";
     var that = {},
-    getFuncCtxt = function (fnIndex, input) {
-        var funcCtxt = that.fnContexts[fnIndex];
-        if (funcCtxt === undefined) {
-            funcCtxt = {
-                "input" : input,
-                "outputSequence" : []
+    getFunctionContext = function (fnIndex, input) {
+        var fnContext = that.fnContexts[fnIndex];
+        if (fnContext === undefined) {
+            fnContext = {
+				"index" : 0,
+                "current" : input,
+                "outList" : []
             };
-            that.fnContexts[fnIndex] = funcCtxt;
+            that.fnContexts[fnIndex] = fnContext;
         } else {
-            funcCtxt.input = input;
+            fnContext.current = input;
+			fnContext.index += 1;
         }
-        return funcCtxt;
+        return fnContext;
     },
     isYieldEmpty = function () {
-        return ((that.yieldIndex + 1) === that.inputSequence.length);
+        return ((that.yieldIndex + 1) === that.inList.length);
     },
 	current = null,
     moveNext = function () {
@@ -27,26 +51,26 @@ Array.prototype.getIterator = function () {
             fn = null,
             fnCtxt = null;
             that.yieldIndex += 1;
-            result = that.inputSequence[that.yieldIndex];
+            result = that.inList[that.yieldIndex];
             if (args.length > 0) {
                 for (i = 0; i < args.length; i += 1) {
                     fn = args[i];
-                    fnCtxt = getFuncCtxt(i, result);
+                    fnCtxt = getFunctionContext(i, result);
                     result = fn.call(fnCtxt);
                     if (result === null) {
                         break;
                     } else {
-                        fnCtxt.outputSequence.push(result);
+                        fnCtxt.outList.push(result);
                     }
                 }
 				if (result !== null) {
-					that.outputSequence.push(result);
+					that.outList.push(result);
 					that.current = result;
 				}
 				return result;
             } else {
-                that.current = that.inputSequence[that.yieldIndex];
-				that.outputSequence.push(that.current);
+                that.current = that.inList[that.yieldIndex];
+				that.outList.push(that.current);
 				return that.current;
             }
         };
@@ -56,9 +80,9 @@ Array.prototype.getIterator = function () {
         return (yieldedResult !== null) ? true : false;
     };
     that.fnContexts = [];
-    that.inputSequence = this;
-    that.length = that.inputSequence.length;
-    that.outputSequence = [];
+    that.inList = this;
+    that.length = that.inList.length;
+    that.outList = [];
     that.yieldIndex = -1;
     that.current = null;
     that.moveNext = moveNext;
@@ -68,8 +92,8 @@ Array.prototype.getIterator = function () {
 //Test Harness
 function unique() {
     "use strict";
-    if (this.outputSequence.indexOf(this.input) < 0) {
-        return this.input;
+    if (this.outList.indexOf(this.current) < 0) {
+        return this.current;
     } else {
         return null;
     }
@@ -77,28 +101,34 @@ function unique() {
 
 function square() {
     "use strict";
-    return (this.input * this.input);
+    return (this.current * this.current);
 }
 
-function filter() {
+function filter(condition) {
 	"use strict";
-	return (this.input % 2 === 0) ? this.input : null; 
+	return function () {
+		return condition(this.current) ? this.current : null; 
+	};
 }
 
-function skip1() {
+function even(val) {
 	"use strict";
-	if (this.hasOwnProperty('count')) {
-		this.count += 1;
-	} else {
-		this.count = 0;
-	}
-	return (this.count % 2 !== 0) ? this.input : null; 
+	return (val % 2 === 0);
 }
 
-var x = [1,2,3,200,null,1,2,3,200],
+function skip(count) {
+	"use strict";
+	return function () {
+		//console.log(this.index.toString() + " : " + this.current.toString());
+		return ((this.index % (count+1)) === 0) ? this.current : null;
+	};
+}
+
+var x = [1,2,3,200,1,2,3,200],
 	continuation = x.getIterator();
 
-while (continuation.moveNext(unique,skip1)) {
-    console.log(continuation.current);
+while (continuation.moveNext(filter(even))) {
+    //console.log(continuation.current);
+	continuation.current;
 }
-console.log(continuation.outputSequence);
+console.log(continuation.outList);
