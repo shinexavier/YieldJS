@@ -22,113 +22,71 @@ SOFTWARE.*/
 
 Array.prototype.getIterator = function () {
     "use strict";
-    var that = {},
-    getFunctionContext = function (fnIndex, input) {
-        var fnContext = that.fnContexts[fnIndex];
-        if (fnContext === undefined) {
-            fnContext = {
-				"index" : 0,
-                "current" : input,
-                "outList" : []
-            };
-            that.fnContexts[fnIndex] = fnContext;
-        } else {
-            fnContext.current = input;
-			fnContext.index += 1;
-        }
-        return fnContext;
-    },
-    isYieldEmpty = function () {
-        return ((that.yieldIndex + 1) === that.inList.length);
-    },
-	current = null,
-    moveNext = function () {
-        var args = arguments,
-        yieldedResult = null,
-        core = function () {
-            var i,
-            result = null,
-            fn = null,
-            fnCtxt = null;
-            that.yieldIndex += 1;
-            result = that.inList[that.yieldIndex];
-            if (args.length > 0) {
-                for (i = 0; i < args.length; i += 1) {
-                    fn = args[i];
-                    fnCtxt = getFunctionContext(i, result);
-                    result = fn.call(fnCtxt);
-                    if (result === null) {
-                        break;
-                    } else {
-                        fnCtxt.outList.push(result);
-                    }
-                }
-				if (result !== null) {
-					that.outList.push(result);
-					that.current = result;
-				}
-				return result;
-            } else {
-                that.current = that.inList[that.yieldIndex];
-				that.outList.push(that.current);
-				return that.current;
-            }
-        };
-        while ((yieldedResult === null) && (!isYieldEmpty())) {
-            yieldedResult = core();
-        }
-        return (yieldedResult !== null) ? true : false;
-    };
-    that.fnContexts = [];
-    that.inList = this;
-    that.length = that.inList.length;
-    that.outList = [];
-    that.yieldIndex = -1;
-    that.current = null;
-    that.moveNext = moveNext;
-    return that;
+    var inList = this,
+		it = {},
+		fnContexts = [],
+		yieldIndex = -1,
+		getFunctionContext = function (fnIndex, input) {
+			var fnContext = fnContexts[fnIndex];
+			if (fnContext === undefined) {
+				fnContext = {
+					"index" : 0,
+					"current" : input,
+					"outList" : []
+				};
+				fnContexts[fnIndex] = fnContext;
+			} else {
+				fnContext.current = input;
+				fnContext.index += 1;
+			}
+			return fnContext;
+		},
+		isYieldEmpty = function () {
+			return ((yieldIndex + 1) === inList.length);
+		},
+		moveNext = function () {
+			var args = arguments,
+				yieldedResult = null,
+				core = function () {
+					var i,
+						result = null,
+						fn = null,
+						fnCtxt = null,
+						returnVal = null;
+					yieldIndex += 1;
+					result = inList[yieldIndex];
+					if (args.length > 0) {
+						for (i = 0; i < args.length; i += 1) {
+							fn = args[i];
+							fnCtxt = getFunctionContext(i, result);
+							result = fn.call(null, fnCtxt);
+							if (result === null) {
+								break;
+							} else {
+								fnCtxt.outList.push(result);
+							}
+						}
+						if (result !== null) {
+							it.outList.push(result);
+							it.current = result;
+						}
+						returnVal = result;
+					} else {
+						it.current = inList[yieldIndex];
+						it.outList.push(it.current);
+						returnVal = it.current;
+					}
+					return returnVal;
+				};
+			while ((yieldedResult === null) && (!isYieldEmpty())) {
+				//Recursive call to find the next non-null value
+				yieldedResult = core();
+			}
+			return (yieldedResult !== null) ? true : false;
+		};
+    it.length = inList.length;
+    it.outList = [];
+    it.current = null;
+    it.moveNext = moveNext;
+    return it;
 };
-
-//Test Harness
-function unique() {
-    "use strict";
-    if (this.outList.indexOf(this.current) < 0) {
-        return this.current;
-    } else {
-        return null;
-    }
-}
-
-function square() {
-    "use strict";
-    return (this.current * this.current);
-}
-
-function filter(condition) {
-	"use strict";
-	return function () {
-		return condition(this.current) ? this.current : null; 
-	};
-}
-
-function even(val) {
-	"use strict";
-	return (val % 2 === 0);
-}
-
-function skip(count) {
-	"use strict";
-	return function () {
-		//console.log(this.index.toString() + " : " + this.current.toString());
-		return ((this.index % (count+1)) === 0) ? this.current : null;
-	};
-}
-
-var x = [1,2,3,200,1,2,3,200],
-	continuation = x.getIterator();
-
-while (continuation.moveNext(filter(even))) {
-    //console.log(continuation.current);
-	continuation.current;
-}
-console.log(continuation.outList);
