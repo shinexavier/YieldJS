@@ -1,0 +1,146 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>YieldJS</title>
+  <meta name="description" content="A JavaScript library for creating Iterators and Continuation methods for Arrays.">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">YieldJS</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">A JavaScript library for creating Iterators and Continuation methods for Arrays.</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/shinexavier/YieldJS/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/shinexavier/YieldJS/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/shinexavier/YieldJS" class="code">View YieldJS on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>
+<a name="yieldjs" class="anchor" href="#yieldjs"><span class="octicon octicon-link"></span></a>YieldJS</h1>
+
+<p>A JavaScript library for creating Iterators and Continuation methods for Arrays.</p>
+
+<p>The Iterator would be a method (<b>getIterator()</b>) that augments the Array data type and would have the following interfaces:</p>
+
+<p>Properties:</p>
+
+<ol>
+<li>
+<b>length</b>   : Length of the collection/array that would be iterated.</li>
+<li>
+<b>current</b>  : Gives the current element during the course of an iteration.</li>
+<li>
+<b>outList</b>  : The output collection/array after iteration.</li>
+</ol><p>Methods:</p>
+
+<ol>
+<li>
+<b>moveNext</b>  : Attempts to move the iteration pointer to the next element in the list and returns "<b>true</b>" if successful. If unsuccessful (primarily because the iteration pointer is at the last element in the list), returns "<b>false</b>".</li>
+</ol><p>Usage:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="nx">list</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">getIterator</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">moveNext</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">outList</span><span class="p">);</span>
+</pre></div>
+
+<h1>
+<a name="continuation-methods" class="anchor" href="#continuation-methods"><span class="octicon octicon-link"></span></a>Continuation Methods:</h1>
+
+<p>For creating continuation methods a context object is provided for qualifying methods.
+The context object provides the following attributes for creating various useful functions:</p>
+
+<ol>
+<li>
+<b>index</b> : Gives the index of the current element in iteration context.</li>
+<li>
+<b>current</b> : Gives the current element in iteration context.</li>
+<li>
+<b>outList</b> : Gives the cumilative output collection/array till that point of iteration.</li>
+</ol><p>Usage:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">//Continuation Methods</span>
+<span class="kd">function</span> <span class="nx">unique</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">outList</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">current</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nx">context</span><span class="p">.</span><span class="nx">current</span> <span class="o">:</span> <span class="kc">null</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">square</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">current</span> <span class="o">*</span> <span class="nx">context</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">filter</span><span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">condition</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">current</span><span class="p">)</span> <span class="o">?</span> <span class="nx">context</span><span class="p">.</span><span class="nx">current</span> <span class="o">:</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">even</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">val</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">===</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">skip</span><span class="p">(</span><span class="nx">count</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//console.log(this.index.toString() + " : " + this.current.toString());</span>
+        <span class="k">return</span> <span class="p">((</span><span class="nx">context</span><span class="p">.</span><span class="nx">index</span> <span class="o">%</span> <span class="p">(</span><span class="nx">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nx">context</span><span class="p">.</span><span class="nx">current</span> <span class="o">:</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">//Test Harness</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
+    <span class="nx">continuation</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">getIterator</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">moveNext</span><span class="p">(</span><span class="nx">unique</span><span class="p">,</span> <span class="nx">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">outList</span><span class="p">);</span>
+</pre></div>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/shinexavier" class="avatar"><img src="https://avatars3.githubusercontent.com/u/1656318?s=60" width="48" height="48"/></a> <a href="https://github.com/shinexavier">shinexavier</a> maintains <a href="https://github.com/shinexavier/YieldJS">YieldJS</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/shinexavier/YieldJS/tarball/master" class="tar">tar</a><a href="https://github.com/shinexavier/YieldJS/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
