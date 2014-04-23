@@ -27,7 +27,7 @@ while (list.moveNext() {
 }
 console.log(continuation.outList);
 continuation.reset();
-console.log(continuation.iterate(unique, skip(2)));
+console.log(continuation.iterate());
 ```
 
 The Generator would be a method (<b>getGenerator(numberOfElements)</b>) that augments any Generator function (by accepting the number of elements to be generated) and would have the following interfaces:
@@ -56,12 +56,12 @@ function sequence(z) {
 }
 
 var a = sequence(1).getGenerator(10);//For generating the first 10 elements (1 through 10)
-while(a.moveNext(square,skip(1))) {
+while(a.moveNext()) {
 	console.log(a.current);
 }
 
 a.nextSet(5);//For generating the next 5 elements (11 through 15)
-console.log(a.generate(square));
+console.log(a.generate());
 ```
 
 
@@ -108,8 +108,13 @@ function skip(count) {
         return ((context.index % (count + 1)) === 0) ? context.current : null;
     };
 }
+```
 
-//Test Harness
+Example Usage:
+==============
+
+```javascript
+//Test Harness using all of above (iterators, generators and continuation methods)
 var x = [1, 2, 3, 200, 1, 2, 3, 200],
 continuation = x.getIterator();
 console.log(continuation.iterate());
