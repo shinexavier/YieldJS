@@ -1,7 +1,7 @@
 YieldJS
 =======
 
-A JavaScript library for creating Iterators and Continuation methods for Arrays.
+A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.
 
 The Iterator would be a method (<b>getIterator()</b>) that augments the Array data type and would have the following interfaces:
 
@@ -77,4 +77,21 @@ while (continuation.moveNext(unique, skip(2))) {
     console.log(continuation.current);
 }
 console.log(continuation.outList);
+
+//Generator Methods Usage
+function sequence(z) {
+	"use strict";
+	var y = 0;
+	return function () {
+		y += z;
+		return y;
+	};
+}
+
+var a = sequence(1).getGenerator(10);
+while(a.moveNext(square,skip(1))) {
+	console.log(a.current);
+}
+a.nextSet(5);
+console.log(a.generate(square));
 ```
