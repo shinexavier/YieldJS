@@ -1,45 +1,48 @@
 <!doctype html>
-<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
-<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>YieldJS by shinexavier</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
-  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="javascripts/script.js"></script>
+  </head>
+  <body>
 
-  <title>YieldJS</title>
-  <meta name="description" content="A JavaScript library for creating Iterators and Continuation methods for Arrays.">
+      <header>
+        <h1>YieldJS</h1>
+        <p>A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.</p>
+      </header>
 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+      <div id="banner">
+        <span id="logo"></span>
 
-</head>
-
-<body>
-
-  <div class="wrapper">
-    <header>
-      <h1 class="title">YieldJS</h1>
-    </header>
-    <div id="container">
-      <p class="tagline">A JavaScript library for creating Iterators and Continuation methods for Arrays.</p>
-      <div id="main" role="main">
-        <div class="download-bar">
-        <div class="inner">
-          <a href="https://github.com/shinexavier/YieldJS/tarball/master" class="download-button tar"><span>Download</span></a>
-          <a href="https://github.com/shinexavier/YieldJS/zipball/master" class="download-button zip"><span>Download</span></a>
-          <a href="https://github.com/shinexavier/YieldJS" class="code">View YieldJS on GitHub</a>
+        <a href="https://github.com/shinexavier/YieldJS" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/shinexavier/YieldJS/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/shinexavier/YieldJS/tarball/master" class="button">TAR</a></li>
+          </ul>
         </div>
-        <span class="blc"></span><span class="trc"></span>
-        </div>
-        <article class="markdown-body">
-          <h1>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
 <a name="yieldjs" class="anchor" href="#yieldjs"><span class="octicon octicon-link"></span></a>YieldJS</h1>
 
-<p>A JavaScript library for creating Iterators and Continuation methods for Arrays.</p>
+<p>A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.</p>
 
 <p>The Iterator would be a method (<b>getIterator()</b>) that augments the Array data type and would have the following interfaces:</p>
 
@@ -57,6 +60,10 @@
 <ol>
 <li>
 <b>moveNext</b>  : Attempts to move the iteration pointer to the next element in the list and returns "<b>true</b>" if successful. If unsuccessful (primarily because the iteration pointer is at the last element in the list), returns "<b>false</b>".</li>
+<li>
+<b>iterate</b>  : Iterates the elements in the input array based on the continuation methods (if any) and returns the results as an "<b>array</b>".</li>
+<li>
+<b>reset</b>  : Resets the iterator (including the iteration pointer and output array) to be used for other iterations without creating a new iterator. Basically promotes reusability.</li>
 </ol><p>Usage:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
@@ -65,6 +72,45 @@
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">outList</span><span class="p">);</span>
+<span class="nx">continuation</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">iterate</span><span class="p">());</span>
+</pre></div>
+
+<p>The Generator would be a method (<b>getGenerator(numberOfElements)</b>) that augments any Generator function (by accepting the number of elements to be generated) and would have the following interfaces:</p>
+
+<p>Properties:</p>
+
+<ol>
+<li>
+<b>current</b>  : Gives the current element during the course of a generation.</li>
+</ol><p>Methods:</p>
+
+<ol>
+<li>
+<b>moveNext</b>  : Attempts to Generate the next element based on the generator function, increments the iteration pointer and returns "<b>true</b>" if successful. If unsuccessful (primarily because the iteration pointer points to the last element returned by the generator function based on the number of elements specified), returns "<b>false</b>".</li>
+<li>
+<b>generate</b>  : Generates the elements based on the generator function, number of elements, continuation methods (if any) and returns the results as an "<b>array</b>".</li>
+<li>
+<b>nextSet</b>  : Prepares the generator to generate the next set of elements based on the number of elements specified (if unspecified, the default number of elements initialized as part of the generator creation would be used).</li>
+</ol><p>Usage:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">//A generic sequence generator function:</span>
+<span class="kd">function</span> <span class="nx">sequence</span><span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">y</span> <span class="o">+=</span> <span class="nx">z</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">y</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">sequence</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">getGenerator</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="c1">//For generating the first 10 elements (1 through 10)</span>
+<span class="k">while</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">moveNext</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">a</span><span class="p">.</span><span class="nx">nextSet</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="c1">//For generating the next 5 elements (11 through 15)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">generate</span><span class="p">());</span>
 </pre></div>
 
 <h1>
@@ -112,35 +158,44 @@ The context object provides the following attributes for creating various useful
         <span class="k">return</span> <span class="p">((</span><span class="nx">context</span><span class="p">.</span><span class="nx">index</span> <span class="o">%</span> <span class="p">(</span><span class="nx">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nx">context</span><span class="p">.</span><span class="nx">current</span> <span class="o">:</span> <span class="kc">null</span><span class="p">;</span>
     <span class="p">};</span>
 <span class="p">}</span>
+</pre></div>
 
-<span class="c1">//Test Harness</span>
+<h1>
+<a name="example-usage" class="anchor" href="#example-usage"><span class="octicon octicon-link"></span></a>Example Usage:</h1>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">//Test Harness using all of above (iterators, generators and continuation methods)</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
-    <span class="nx">continuation</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">getIterator</span><span class="p">();</span>
+<span class="nx">continuation</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">getIterator</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">iterate</span><span class="p">());</span>
+<span class="nx">continuation</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
 <span class="k">while</span> <span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">moveNext</span><span class="p">(</span><span class="nx">unique</span><span class="p">,</span> <span class="nx">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
+    <span class="c1">//console.log(continuation.current);</span>
 <span class="p">}</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">continuation</span><span class="p">.</span><span class="nx">outList</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">sequence</span><span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+    <span class="s2">"use strict"</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">y</span> <span class="o">+=</span> <span class="nx">z</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">y</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">sequence</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">getGenerator</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">while</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">moveNext</span><span class="p">(</span><span class="nx">square</span><span class="p">,</span><span class="nx">skip</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">current</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">nextSet</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">generate</span><span class="p">(</span><span class="nx">square</span><span class="p">));</span>
 </pre></div>
-        </article>
-      </div>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/shinexavier">shinexavier</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
     </div>
-    <footer>
-      <div class="owner">
-      <p><a href="https://github.com/shinexavier" class="avatar"><img src="https://avatars3.githubusercontent.com/u/1656318?s=60" width="48" height="48"/></a> <a href="https://github.com/shinexavier">shinexavier</a> maintains <a href="https://github.com/shinexavier/YieldJS">YieldJS</a></p>
-
-
-      </div>
-      <div class="creds">
-        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
-      </div>
-    </footer>
-  </div>
-  <div class="current-section">
-    <a href="#top">Scroll to top</a>
-    <a href="https://github.com/shinexavier/YieldJS/tarball/master" class="tar">tar</a><a href="https://github.com/shinexavier/YieldJS/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
-    <p class="name"></p>
-  </div>
-
-  
-</body>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
 </html>
