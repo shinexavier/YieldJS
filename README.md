@@ -26,6 +26,39 @@ while (list.moveNext() {
 console.log(continuation.outList);
 ```
 
+The Generator would be a method (<b>getGenerator(numberOfElements)</b>) that augments any Generator function (by accepting the number of elements to be generated) and would have the following interfaces:
+
+Properties:
+
+1. <b>current</b>  : Gives the current element during the course of a generation.
+
+Methods:
+
+1. <b>moveNext</b>  : Attempts to Generate the next element based on the generator function, increments the iteration pointer and returns "<b>true</b>" if successful. If unsuccessful (primarily because the iteration pointer points to the last element returned by the generator function based on the number of elements specified), returns "<b>false</b>".
+
+Usage:
+
+```javascript
+//A generic sequence generator function:
+function sequence(z) {
+	"use strict";
+	var y = 0;
+	return function () {
+		y += z;
+		return y;
+	};
+}
+
+var a = sequence(1).getGenerator(10);//For generating the first 10 elements (1 through 10)
+while(a.moveNext(square,skip(1))) {
+	console.log(a.current);
+}
+
+a.nextSet(5);//For generating the next 5 elements (11 through 15)
+console.log(a.generate(square));
+```
+
+
 Continuation Methods:
 =====================
 
@@ -77,21 +110,4 @@ while (continuation.moveNext(unique, skip(2))) {
     console.log(continuation.current);
 }
 console.log(continuation.outList);
-
-//Generator Methods Usage
-function sequence(z) {
-	"use strict";
-	var y = 0;
-	return function () {
-		y += z;
-		return y;
-	};
-}
-
-var a = sequence(1).getGenerator(10);
-while(a.moveNext(square,skip(1))) {
-	console.log(a.current);
-}
-a.nextSet(5);
-console.log(a.generate(square));
 ```
