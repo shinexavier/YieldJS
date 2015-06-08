@@ -1,42 +1,33 @@
 <!doctype html>
-<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
-<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>YieldJS by shinexavier</title>
 
-  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen">
-  <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="javascripts/script.js"></script>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  <title>YieldJS</title>
-  <meta name="description" content="A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.">
-
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-</head>
-
-<body>
-
-  <div class="wrapper">
-    <header>
-      <h1 class="title">YieldJS</h1>
-    </header>
-    <div id="container">
-      <p class="tagline">A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.</p>
-      <div id="main" role="main">
-        <div class="download-bar">
-        <div class="inner">
-          <a href="https://github.com/shinexavier/YieldJS/tarball/master" class="download-button tar"><span>Download</span></a>
-          <a href="https://github.com/shinexavier/YieldJS/zipball/master" class="download-button zip"><span>Download</span></a>
-          <a href="https://github.com/shinexavier/YieldJS" class="code">View YieldJS on GitHub</a>
-        </div>
-        <span class="blc"></span><span class="trc"></span>
-        </div>
-        <article class="markdown-body">
-          <h1>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>YieldJS</h1>
+        <p>A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.</p>
+        <p class="view"><a href="https://github.com/shinexavier/YieldJS">View the Project on GitHub <small>shinexavier/YieldJS</small></a></p>
+        <ul>
+          <li><a href="https://github.com/shinexavier/YieldJS/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/shinexavier/YieldJS/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/shinexavier/YieldJS">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
 <a id="yieldjs" class="anchor" href="#yieldjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>YieldJS</h1>
 
 <p>A JavaScript library for creating Iterators, Generators and Continuation methods for Arrays.</p>
@@ -67,14 +58,14 @@
 
 <p>Usage:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> x <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>],
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> x <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>],
     list <span class="pl-k">=</span> x.getIterator();
-<span class="pl-k">while</span> (list.moveNext() {
-    <span class="pl-en">console</span><span class="pl-s3">.log</span>(list.<span class="pl-sc">current</span>);
+<span class="pl-k">while</span> (list.<span class="pl-en">moveNext</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(list.<span class="pl-c1">current</span>);
 }
-<span class="pl-en">console</span><span class="pl-s3">.log</span>(continuation.outList);
-continuation.<span class="pl-s3">reset</span>();
-<span class="pl-en">console</span><span class="pl-s3">.log</span>(continuation.iterate());</pre></div>
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(continuation.outList);
+continuation.<span class="pl-c1">reset</span>();
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(continuation.iterate());</pre></div>
 
 <p>The Generator would be a method (<b>getGenerator(numberOfElements)</b>) that augments any Generator function (by accepting the number of elements to be generated) and would have the following interfaces:</p>
 
@@ -99,22 +90,22 @@ continuation.<span class="pl-s3">reset</span>();
 <p>Usage:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">//A generic sequence generator function:</span>
-<span class="pl-st">function</span> <span class="pl-en">sequence</span>(<span class="pl-vpf">z</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-    <span class="pl-s">var</span> y <span class="pl-k">=</span> <span class="pl-c1">0</span>;
-    <span class="pl-k">return</span> <span class="pl-st">function</span> () {
+<span class="pl-k">function</span> <span class="pl-en">sequence</span>(<span class="pl-smi">z</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+    <span class="pl-k">var</span> y <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+    <span class="pl-k">return</span> <span class="pl-k">function</span> () {
         y <span class="pl-k">+=</span> z;
         <span class="pl-k">return</span> y;
     };
 }
 
-<span class="pl-s">var</span> a <span class="pl-k">=</span> sequence(<span class="pl-c1">1</span>).getGenerator(<span class="pl-c1">10</span>);<span class="pl-c">//For generating the first 10 elements (1 through 10)</span>
+<span class="pl-k">var</span> a <span class="pl-k">=</span> sequence(<span class="pl-c1">1</span>).getGenerator(<span class="pl-c1">10</span>);<span class="pl-c">//For generating the first 10 elements (1 through 10)</span>
 <span class="pl-k">while</span>(a.moveNext()) {
-    <span class="pl-en">console</span><span class="pl-s3">.log</span>(a.<span class="pl-sc">current</span>);
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(a.<span class="pl-c1">current</span>);
 }
 
 a.nextSet(<span class="pl-c1">5</span>);<span class="pl-c">//For generating the next 5 elements (11 through 15)</span>
-<span class="pl-en">console</span><span class="pl-s3">.log</span>(a.generate());</pre></div>
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(a.generate());</pre></div>
 
 <h1>
 <a id="continuation-methods" class="anchor" href="#continuation-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Continuation Methods:</h1>
@@ -134,33 +125,33 @@ The context object provides the following attributes for creating various useful
 <p>Usage:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">//Continuation Methods</span>
-<span class="pl-st">function</span> <span class="pl-en">unique</span>(<span class="pl-vpf">context</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-    <span class="pl-k">return</span> (context.outList.<span class="pl-s3">indexOf</span>(context.<span class="pl-sc">current</span>) <span class="pl-k">&lt;</span> <span class="pl-c1">0</span>) <span class="pl-k">?</span> context.<span class="pl-sc">current</span> <span class="pl-k">:</span> <span class="pl-c1">null</span>;
+<span class="pl-k">function</span> <span class="pl-en">unique</span>(<span class="pl-smi">context</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span> (context.outList.<span class="pl-c1">indexOf</span>(context.<span class="pl-c1">current</span>) <span class="pl-k">&lt;</span> <span class="pl-c1">0</span>) <span class="pl-k">?</span> context.<span class="pl-c1">current</span> <span class="pl-k">:</span> <span class="pl-c1">null</span>;
 }
 
-<span class="pl-st">function</span> <span class="pl-en">square</span>(<span class="pl-vpf">context</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-    <span class="pl-k">return</span> (context.<span class="pl-sc">current</span> <span class="pl-k">*</span> context.<span class="pl-sc">current</span>);
+<span class="pl-k">function</span> <span class="pl-en">square</span>(<span class="pl-smi">context</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span> (context.<span class="pl-c1">current</span> <span class="pl-k">*</span> context.<span class="pl-c1">current</span>);
 }
 
-<span class="pl-st">function</span> <span class="pl-en">filter</span>(<span class="pl-vpf">condition</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-    <span class="pl-k">return</span> <span class="pl-st">function</span> (<span class="pl-vpf">context</span>) {
-        <span class="pl-k">return</span> condition(context.<span class="pl-sc">current</span>) <span class="pl-k">?</span> context.<span class="pl-sc">current</span> <span class="pl-k">:</span> <span class="pl-c1">null</span>;
+<span class="pl-k">function</span> <span class="pl-en">filter</span>(<span class="pl-smi">condition</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span> <span class="pl-k">function</span> (<span class="pl-smi">context</span>) {
+        <span class="pl-k">return</span> condition(context.<span class="pl-c1">current</span>) <span class="pl-k">?</span> context.<span class="pl-c1">current</span> <span class="pl-k">:</span> <span class="pl-c1">null</span>;
     };
 }
 
-<span class="pl-st">function</span> <span class="pl-en">even</span>(<span class="pl-vpf">val</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+<span class="pl-k">function</span> <span class="pl-en">even</span>(<span class="pl-smi">val</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
     <span class="pl-k">return</span> (val <span class="pl-k">%</span> <span class="pl-c1">2</span> <span class="pl-k">===</span> <span class="pl-c1">0</span>);
 }
 
-<span class="pl-st">function</span> <span class="pl-en">skip</span>(<span class="pl-vpf">count</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-    <span class="pl-k">return</span> <span class="pl-st">function</span> (<span class="pl-vpf">context</span>) {
+<span class="pl-k">function</span> <span class="pl-en">skip</span>(<span class="pl-smi">count</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span> <span class="pl-k">function</span> (<span class="pl-smi">context</span>) {
         <span class="pl-c">//console.log(this.index.toString() + " : " + this.current.toString());</span>
-        <span class="pl-k">return</span> ((context.<span class="pl-sc">index</span> <span class="pl-k">%</span> (count <span class="pl-k">+</span> <span class="pl-c1">1</span>)) <span class="pl-k">===</span> <span class="pl-c1">0</span>) <span class="pl-k">?</span> context.<span class="pl-sc">current</span> <span class="pl-k">:</span> <span class="pl-c1">null</span>;
+        <span class="pl-k">return</span> ((context.<span class="pl-c1">index</span> <span class="pl-k">%</span> (count <span class="pl-k">+</span> <span class="pl-c1">1</span>)) <span class="pl-k">===</span> <span class="pl-c1">0</span>) <span class="pl-k">?</span> context.<span class="pl-c1">current</span> <span class="pl-k">:</span> <span class="pl-c1">null</span>;
     };
 }</pre></div>
 
@@ -168,51 +159,38 @@ The context object provides the following attributes for creating various useful
 <a id="example-usage" class="anchor" href="#example-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Usage:</h1>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">//Test Harness using all of above (iterators, generators and continuation methods)</span>
-<span class="pl-s">var</span> x <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">200</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">200</span>],
+<span class="pl-k">var</span> x <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">200</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">200</span>],
 continuation <span class="pl-k">=</span> x.getIterator();
-<span class="pl-en">console</span><span class="pl-s3">.log</span>(continuation.iterate());
-continuation.<span class="pl-s3">reset</span>();
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(continuation.iterate());
+continuation.<span class="pl-c1">reset</span>();
 <span class="pl-k">while</span> (continuation.moveNext(unique, skip(<span class="pl-c1">2</span>))) {
     <span class="pl-c">//console.log(continuation.current);</span>
 }
-<span class="pl-en">console</span><span class="pl-s3">.log</span>(continuation.outList);
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(continuation.outList);
 
-<span class="pl-st">function</span> <span class="pl-en">sequence</span>(<span class="pl-vpf">z</span>) {
-    <span class="pl-s1"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-    <span class="pl-s">var</span> y <span class="pl-k">=</span> <span class="pl-c1">0</span>;
-    <span class="pl-k">return</span> <span class="pl-st">function</span> () {
+<span class="pl-k">function</span> <span class="pl-en">sequence</span>(<span class="pl-smi">z</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+    <span class="pl-k">var</span> y <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+    <span class="pl-k">return</span> <span class="pl-k">function</span> () {
         y <span class="pl-k">+=</span> z;
         <span class="pl-k">return</span> y;
     };
 }
 
-<span class="pl-s">var</span> a <span class="pl-k">=</span> sequence(<span class="pl-c1">1</span>).getGenerator(<span class="pl-c1">10</span>);
+<span class="pl-k">var</span> a <span class="pl-k">=</span> sequence(<span class="pl-c1">1</span>).getGenerator(<span class="pl-c1">10</span>);
 <span class="pl-k">while</span>(a.moveNext(square,skip(<span class="pl-c1">1</span>))) {
-    <span class="pl-en">console</span><span class="pl-s3">.log</span>(a.<span class="pl-sc">current</span>);
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(a.<span class="pl-c1">current</span>);
 }
 a.nextSet(<span class="pl-c1">5</span>);
-<span class="pl-en">console</span><span class="pl-s3">.log</span>(a.generate(square));</pre></div>
-        </article>
-      </div>
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(a.generate(square));</pre></div>
+      </section>
     </div>
     <footer>
-      <div class="owner">
-      <p><a href="https://github.com/shinexavier" class="avatar"><img src="https://avatars2.githubusercontent.com/u/1656318?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/shinexavier">shinexavier</a> maintains <a href="https://github.com/shinexavier/YieldJS">YieldJS</a></p>
-
-
-      </div>
-      <div class="creds">
-        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
-      </div>
+      <p>Project maintained by <a href="https://github.com/shinexavier">shinexavier</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
     </footer>
-  </div>
-  <div class="current-section">
-    <a href="#top">Scroll to top</a>
-    <a href="https://github.com/shinexavier/YieldJS/tarball/master" class="tar">tar</a><a href="https://github.com/shinexavier/YieldJS/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
-    <p class="name"></p>
-  </div>
-
-            <script type="text/javascript">
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -223,5 +201,5 @@ a.nextSet(<span class="pl-c1">5</span>);
             } catch(err) {}
           </script>
 
-</body>
+  </body>
 </html>
